@@ -53,7 +53,6 @@ new #[Layout('layouts.guest')] class extends Component
             @error('image') <span class="error">{{ $message }}</span> @enderror
             <button type="submit">Save Image</button>
         </div>
-        </div>
         <!-- Name -->
         <div>
             <x-input-label for="name" :value="__('Name')" />
