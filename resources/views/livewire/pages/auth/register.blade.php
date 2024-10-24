@@ -31,9 +31,9 @@ new #[Layout('layouts.guest')] class extends Component
             'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
             'image' => ['nullable','image','max:1024'],
         ]);
-
+        
         if($this->image){
-            $validated['image'] = $this->image->store('profile-image', 'public');
+            $validated['image'] = $this->image->store('profile-image', 's3');
         }
         
         $validated['password'] = Hash::make($validated['password']);

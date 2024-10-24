@@ -9,31 +9,33 @@ new class extends Component
 {
     use WithFileUploads;
 
-    public $image;
+    // public $image;
     public $uploadedImage;
 
     public function mount(): void
     {
         $this->uploadedImage = Auth::user()->image;
+        // dd($this->uploadedImage);
     }
 
-    public function updateImageProfile(): void
-    {
-        $user = Auth::user();
+    // public function updateImageProfile(): void
+    // {
+    //     $user = Auth::user();
 
-        $validated = $this->validate([
-            'image' => ['nullable', 'image', 'max:1024'],
-        ]);
+    //     $validated = $this->validate([
+    //         'image' => ['nullable', 'image', 'max:1024'],
+    //     ]);
+    //     dd($this);
         
-        if ($validated) {
-            if ($this->uploadedImage) {
-                Storage::disk('public')->delete($this->uploadedImage);
-            }
-            $path = $this->image->store('profile-image', 'public');
-            $user->update(['image' => $path]);
-            $this->uploadedImage = $path; // Update gambar secara real-time
-        }
-    }
+    //     if ($validated) {
+    //         if ($this->uploadedImage) {
+    //             Storage::disk('s3')->delete($this->uploadedImage);
+    //         }
+    //         $path = $this->image->store('profile-image', 's3');
+    //         $user->update(['image' => $path]);
+    //           // Update gambar secara real-time
+    //     }
+    // }
 }
 ?>
 
@@ -46,12 +48,17 @@ new class extends Component
             {{ __("Upload your image") }}
         </p>
     </header>
-    <img src="{{ asset('storage/' . $uploadedImage) }}" alt="Profile Image" width="250px" height="250px">
-    <form wire:submit.prevent="updateImageProfile" enctype="multipart/form-data">
+    <img src="{{ $uploadedImage }}" alt="Profile Image" width="250px" height="250px">
+    {{-- <form method="POST" action="{{ route('upload.file') }} enctype="multipart/form-data">
         <div>
-            <input type="file" wire:model="image" name="image" wire:target="image" wire:loading.attr="disabled" accept="image/*">
+            <input type="file" name="image" id="image" accept="image/*">
             @error('image') <span class="error">{{ $message }}</span> @enderror
-            <button type="submit" wire:loading.attr="disabled">Save Image</button>
+            <button type="submit">Save Image</button>
         </div>
+    </form> --}}
+    <form action="{{ route('upload.file') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
     </form>
 </section>
