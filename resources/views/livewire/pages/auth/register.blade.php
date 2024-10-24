@@ -49,9 +49,9 @@ new #[Layout('layouts.guest')] class extends Component
     <form wire:submit="register" enctype="multipart/form-data">
         <!-- Image -->
         <div>
-            <input type="file" wire:model="image" name="image">               
+            {{-- <input type="file" wire:model="image" name="image">               
             @error('image') <span class="error">{{ $message }}</span> @enderror
-            <button type="submit">Save Image</button>
+            <button type="submit">Save Image</button> --}}
         </div>
         <!-- Name -->
         <div>
